@@ -38,24 +38,24 @@ public class Grades {
         
         double[][] map = new double[][]{Lauren, Elizabeth, Ashley, Janelle, Grace, Anthony, David, Brandon, Zach, Chris, Ken, Rachel, Kayla, Siobhan, Kitty, Kevin, Davies, Kieu};
         
-        System.out.println(regression(Chris));
+        for (int i = 0; i < regression(Chris,1).length; i++)
+            System.out.println(regression(Chris,1)[i]);
     }
     
     public static void surroundingAverage(Student name) {
         
     }
     
-    public static double[] regression(double[] person) {
+    public static double[] regression(double[] person, int assignment) { //assignment is assignment number (1-5), prediction[i] is grade on BAME
+        double[] prediction = new double[]{.2,.2,.2,.2,.2};
         for (int i = 0; i < person.length; i++) {
-            if (i == person[i]) {
-                person[i] += .2;
-                if (i != person[i])
-                    person[i] -= .05;
-            }
-            
-        }
+            if (i == person[assignment]) 
+                prediction[i] += .2;
+            if (i != person[assignment])
+                prediction[i] -= .05;           
+        }        
         
-        return person;    
-    
+        return prediction;    
+    }
 }
-}
+ 
