@@ -38,11 +38,13 @@ public class Grades {
         
         double[][] map = new double[][]{Lauren, Elizabeth, Ashley, Janelle, Grace, Anthony, David, Brandon, Zach, Chris, Ken, Rachel, Kayla, Siobhan, Kitty, Kevin, Davies, Kieu};
         
-        for (int i = 0; i < regression(Chris,1).length - 1; i++) {
-            for (int n = 0; n < regression(Chris,1).length - 1; n++) {
-            System.out.println("Probability of grade " + (int)(n+1) + " on assignment " + (int)(i+1) + ": " + regression(Chris,i)[n]); 
+        for (int q = 0; q < map.length; q++) {
+            for (int i = 0; i < regression(map[q],1).length - 1; i++) {
+                for (int n = 0; n < regression(map[q],1).length - 1; n++) {
+                System.out.println("Probability of grade " + (int)(n+1) + " on assignment " + (int)(i+1) + ": " + regression(map[q],i)[n] + " --" + map[q]); 
+                }
             }
-        }
+    }
     }
     
     public static void surroundingAverage(Student name) {
