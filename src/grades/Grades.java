@@ -13,6 +13,7 @@ import java.util.*;
  * @author Frankie Lyon
  */
 public class Grades {
+    private static double[][] map;
 
     public static void main(String[] args) {
         double[] Lauren      = new Student(3.5, 3.5, 2, 2, 1).grades;
@@ -40,26 +41,43 @@ public class Grades {
         double[][] map = new double[][]{Lauren, Elizabeth, Ashley, Janelle, Grace, Anthony, David, Brandon, Zach, Chris, Ken, Rachel, Kayla, Siobhan, Kitty, Kevin, Davies, Kieu};
         
         for (int q = 0; q < map.length; q++) {
-            for (int i = 0; i < regression(map[q],1).length - 1; i++) {
-                for (int n = 0; n < regression(map[q],1).length - 1; n++) {
-                System.out.println("Probability of grade " + (int)(n+1) + " on assignment " + (int)(i+1) + ": " + Math.round(regression(map[q],i)[n] * 100.0) / 100.0 + " --(Student " + q + ")"  ); 
+            for (int i = 0; i < regression(map[q],1,1,map).length - 1; i++) {
+                for (int n = 0; n < regression(map[q],1,1,map).length - 1; n++) {
+                System.out.println("Probability of grade " + (int)(n+1) + " on assignment " + (int)(i+1) + ": " + Math.round(regression(map[q],i,q,map)[n] * 1000.0) / 1000.0 + " --(Student " + q + ")"  ); 
                 }
             }
     }
+        //System.out.println(surroundingAverage(1,1,map));
     }
     
-    public static void surroundingAverage(Student name) {
-        
+    public static double surroundingAverage(int position, int assignment, double[][] map) {
+        double total;
+        double avg;
+        if (position - 1 >= 0 && position + 1 < map.length) {
+            total = map[position][assignment] + map[position + 1][assignment] + map[position - 1][assignment];
+            avg = total / 3;
+        }
+        else
+            total = map[position][assignment];
+            avg = total / 2;
+        return total;
     }
     
-    public static double[] regression(double[] person, int assignment) { //assignment is assignment number (1-5), prediction[i] is grade on BAME
-        double[] prediction = new double[]{.2,.2,.2,.2,.2};
+    
+    public static double[] regression(double[] person, int assignment, int position, double[][] map) { //assignment is assignment number (1-5), prediction[i] is grade on BAME
+        double[] prediction = new double[]{.20,.20,.20,.20,.20};
         for (int i = 1; i < person.length - 1; i++) {
             if (i == person[assignment]) 
-                prediction[i-1] += .2;
+                prediction[i-1] += .20;
             else if (i != person[assignment])
-                prediction[i-1] -= .05;           
+                prediction[i-1] -= .05;      
+            if (surroundingAverage(position, assignment, map) < person[assignment])
+                prediction[i-1] -= .065 * surroundingAverage(position, assignment, map);
+            else if (surroundingAverage(position, assignment, map) > person[assignment])
+                prediction[i-1] += .065 * surroundingAverage(position, assignment, map);
         }        
+        
+        
         
         return prediction;    
     }
