@@ -38,8 +38,11 @@ public class Grades {
         
         double[][] map = new double[][]{Lauren, Elizabeth, Ashley, Janelle, Grace, Anthony, David, Brandon, Zach, Chris, Ken, Rachel, Kayla, Siobhan, Kitty, Kevin, Davies, Kieu};
         
-        for (int i = 0; i < regression(Chris,1).length; i++)
-            System.out.println(regression(Chris,1)[i]);
+        for (int i = 0; i < regression(Chris,1).length - 1; i++) {
+            for (int n = 0; n < regression(Chris,1).length - 1; n++) {
+            System.out.println("Probability of grade " + (int)(n+1) + " on assignment " + (int)(i+1) + ": " + regression(Chris,i)[n]); 
+            }
+        }
     }
     
     public static void surroundingAverage(Student name) {
@@ -48,11 +51,11 @@ public class Grades {
     
     public static double[] regression(double[] person, int assignment) { //assignment is assignment number (1-5), prediction[i] is grade on BAME
         double[] prediction = new double[]{.2,.2,.2,.2,.2};
-        for (int i = 0; i < person.length; i++) {
+        for (int i = 1; i < person.length - 1; i++) {
             if (i == person[assignment]) 
-                prediction[i] += .2;
-            if (i != person[assignment])
-                prediction[i] -= .05;           
+                prediction[i-1] += .2;
+            else if (i != person[assignment])
+                prediction[i-1] -= .05;           
         }        
         
         return prediction;    
